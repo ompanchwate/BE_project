@@ -29,8 +29,8 @@ function App() {
               <button
                 onClick={() => setActiveMode('sign-to-text')}
                 className={`px-6 py-3 rounded-full transition-all ${activeMode === 'sign-to-text'
-                    ? 'bg-blue-500 text-white'
-                    : `${darkMode ? 'hover:bg-gray-700 text-gray-300' : 'hover:bg-gray-100 text-gray-700'}`
+                  ? 'bg-blue-500 text-white'
+                  : `${darkMode ? 'hover:bg-gray-700 text-gray-300' : 'hover:bg-gray-100 text-gray-700'}`
                   }`}
               >
                 Sign to Text
@@ -38,8 +38,8 @@ function App() {
               <button
                 onClick={() => setActiveMode('text-to-sign')}
                 className={`px-6 py-3 rounded-full transition-all ${activeMode === 'text-to-sign'
-                    ? 'bg-blue-500 text-white'
-                    : `${darkMode ? 'hover:bg-gray-700 text-gray-300' : 'hover:bg-gray-100 text-gray-700'}`
+                  ? 'bg-blue-500 text-white'
+                  : `${darkMode ? 'hover:bg-gray-700 text-gray-300' : 'hover:bg-gray-100 text-gray-700'}`
                   }`}
               >
                 Text to Sign
@@ -47,12 +47,14 @@ function App() {
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 mb-40">
-            <VideoFeed mode={activeMode} />
-            <ConversionPanel mode={activeMode} />
+          <div className="flex gap-16 mb-40 mx-auto justify-center">
+            <div className="col-span-2">
+              <VideoFeed mode={activeMode} />
+            </div>
+            {/* <ConversionPanel mode={activeMode} /> */}
           </div>
 
-          <AudioPanel />
+          {/* <AudioPanel /> */}
         </main>
       </div>
     </ThemeContext.Provider>

@@ -67,10 +67,10 @@ const ConversionPanel: React.FC<ConversionPanelProps> = ({ mode }) => {
 
   if (mode === 'sign-to-text') {
     return (
-      <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow-lg p-6 h-[500px]`}>
+      <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow-lg p-6 h-[500px] w-[500px]`}>
         <div className="flex items-center justify-between mb-4">
           <h2 className={`text-xl font-semibold ${darkMode ? 'text-white' : 'text-gray-800'}`}>Converted Text</h2>
-          <button
+          {/* <button
             onClick={toggleRecording}
             className={`p-2 rounded-full ${
               isRecording 
@@ -79,16 +79,16 @@ const ConversionPanel: React.FC<ConversionPanelProps> = ({ mode }) => {
             }`}
           >
             {isRecording ? <Square className="h-5 w-5" /> : <Mic className="h-5 w-5" />}
-          </button>
+          </button> */}
         </div>
-        <div className={`h-[400px] ${darkMode ? 'bg-gray-700' : 'bg-gray-50'} rounded-lg p-4 overflow-y-auto`}>
+        <div className={`h-[400px] ${darkMode ? 'bg-gray-700' : 'bg-gray-50'} rounded-lg p-4 overflow-hidden`}>
           <textarea
             value={recognizedText}
             onChange={(e) => setRecognizedText(e.target.value)}
             className={`w-full h-full resize-none border-none focus:ring-0 ${
               darkMode ? 'bg-gray-700 text-gray-300' : 'bg-gray-50 text-gray-600'
             }`}
-            placeholder="Speak or use sign language to see the interpretation here..."
+            placeholder="Converted text will appear here..."
           />
         </div>
       </div>
