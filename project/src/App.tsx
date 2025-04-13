@@ -4,6 +4,7 @@ import Header from './components/Header';
 import VideoFeed from './components/VideoFeed';
 import ConversionPanel from './components/ConversionPanel';
 import AudioPanel from './components/AudioPanel';
+import TextToSign from './components/TextToSign';
 
 export const ThemeContext = createContext({
   darkMode: false,
@@ -47,17 +48,25 @@ function App() {
             </div>
           </div>
 
-          <div className="flex gap-16 mb-40 mx-auto justify-center">
-            <div className="col-span-2">
-              <VideoFeed mode={activeMode} />
-            </div>
-            {/* <ConversionPanel mode={activeMode} /> */}
-          </div>
+          {activeMode === 'sign-to-text' ?
+            <div className="flex gap-16 mb-40 mx-auto justify-center">
+              <div className="col-span-2">
+                <VideoFeed mode={activeMode} />
+              </div>
+              {/* <ConversionPanel mode={activeMode} /> */}
+            </div> :
+             <div className="flex gap-16 mb-40 mx-auto justify-center">
+             <div className="col-span-2">
+               <TextToSign/>
+             </div>
+           </div>
 
-          {/* <AudioPanel /> */}
-        </main>
-      </div>
-    </ThemeContext.Provider>
+        }
+
+      {/* <AudioPanel /> */}
+    </main>
+      </div >
+    </ThemeContext.Provider >
   );
 }
 
