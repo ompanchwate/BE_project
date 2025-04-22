@@ -1,5 +1,4 @@
-import React, { useState, createContext, useContext } from 'react';
-import { Camera, Volume2, MessageSquare, ArrowLeftRight, Settings, User, UserCog, Moon, Sun } from 'lucide-react';
+import { useState, createContext } from 'react';
 import Header from './components/Header';
 import VideoFeed from './components/VideoFeed';
 import TextToSign from './components/TextToSign';
@@ -53,16 +52,13 @@ function App() {
               </div>
               {/* <ConversionPanel mode={activeMode} /> */}
             </div> :
-             <div className="flex gap-16 mb-40 mx-auto justify-center">
-             <div className="col-span-2">
-               <TextToSign/>
-             </div>
-           </div>
-
-        }
-
-      {/* <AudioPanel /> */}
-    </main>
+            <div className="flex gap-16 mb-40 mx-auto justify-center">
+              <div className="col-span-2">
+                <TextToSign />
+              </div>
+            </div>
+          }
+        </main>
       </div >
     </ThemeContext.Provider >
   );

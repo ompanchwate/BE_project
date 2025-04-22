@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { MessageSquare, User, Moon, Sun } from 'lucide-react';
+import { MessageSquare, User, Moon, Sun, Link } from 'lucide-react';
 import { ThemeContext } from '../App';
 
 const Header = () => {
@@ -10,10 +10,11 @@ const Header = () => {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <MessageSquare className="h-8 w-8 text-blue-500" />
-            <h1 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-800'}`}>HandyTalk</h1>
+            {/* Logo */}
+            <img src="../../assets/logo.png" alt="Logo" className="h-10 w-10" />
+            <a href='/' className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-800'}`}>HandyTalk</a>
           </div>
-          
+
           <div className="flex items-center space-x-4">
             <button
               onClick={toggleDarkMode}
