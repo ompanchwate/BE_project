@@ -1,66 +1,67 @@
-import { useState, createContext } from 'react';
-import Header from './components/Header';
-import VideoFeed from './components/VideoFeed';
-import TextToSign from './components/TextToSign';
-
-export const ThemeContext = createContext({
-  darkMode: false,
-  toggleDarkMode: () => { },
-});
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
+import Home from './pages/Home';
+import { ThemeProvider } from './context/ThemeContext';
+import Profile from './pages/profile';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // <--- IMPORTANT: Added the CSS import for toastify
 
 function App() {
-  const [activeMode, setActiveMode] = useState<'sign-to-text' | 'text-to-sign'>('sign-to-text');
-  const [darkMode, setDarkMode] = useState(false);
+  // isSignedIn state is initialized to false.
+  // This state can be used to control protected routes based on user authentication status.
+  const [isSignedIn, setIsSignedIn] = useState(false);
 
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-  };
+  // useEffect hook to check user's sign-in status from localStorage on component mount.
+  // In a real application, this would typically involve validating a token from localStorage
+  // or checking an authentication context.
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    if (user?.isSignedIn) {
+      setIsSignedIn(true);
+    }
+    // Note: If you want to use this `isSignedIn` state for route protection,
+    // you would typically create a ProtectedRoute component or conditionally render routes.
+    // For now, it just sets the state.
+  }, []);
 
   return (
-    <ThemeContext.Provider value={{ darkMode, toggleDarkMode }}>
-      <div className={`min-h-screen ${darkMode ? 'bg-gray-900' : 'bg-gradient-to-br from-blue-50 to-indigo-50'}`}>
-        <Header />
+    // ThemeProvider wraps the entire application to provide theme context.
+    <ThemeProvider>
+      {/* Router enables client-side routing. */}
+      <Router>
+        {/* Routes component defines the application's routes. */}
+        <Routes>
+          {/* Default route redirects to the sign-in page. */}
+          <Route path="/" element={<Navigate to="/signin" />} />
+          {/* Route for the Sign In page. */}
+          <Route path="/signin" element={<SignIn />} />
+          {/* Route for the Sign Up page. */}
+          <Route path="/signup" element={<SignUp />} />
+          {/* Route for the Dashboard (Home) page. */}
+          <Route path="/dashboard" element={<Home />} />
+          {/* Route for the Profile page. */}
+          <Route path="/profile" element={<Profile />} />
+        </Routes>
 
-        <main className="container mx-auto px-4 py-8">
-          <div className="flex justify-center mb-8">
-            <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-full p-2 shadow-md`}>
-              <button
-                onClick={() => setActiveMode('sign-to-text')}
-                className={`px-6 py-3 rounded-full transition-all ${activeMode === 'sign-to-text'
-                  ? 'bg-blue-500 text-white'
-                  : `${darkMode ? 'hover:bg-gray-700 text-gray-300' : 'hover:bg-gray-100 text-gray-700'}`
-                  }`}
-              >
-                Sign to Text
-              </button>
-              <button
-                onClick={() => setActiveMode('text-to-sign')}
-                className={`px-6 py-3 rounded-full transition-all ${activeMode === 'text-to-sign'
-                  ? 'bg-blue-500 text-white'
-                  : `${darkMode ? 'hover:bg-gray-700 text-gray-300' : 'hover:bg-gray-100 text-gray-700'}`
-                  }`}
-              >
-                Text to Sign
-              </button>
-            </div>
-          </div>
-
-          {activeMode === 'sign-to-text' ?
-            <div className="flex gap-16 mb-40 mx-auto justify-center">
-              <div className="col-span-2">
-                <VideoFeed mode={activeMode} />
-              </div>
-              {/* <ConversionPanel mode={activeMode} /> */}
-            </div> :
-            <div className="flex gap-16 mb-40 mx-auto justify-center">
-              <div className="col-span-2">
-                <TextToSign />
-              </div>
-            </div>
-          }
-        </main>
-      </div >
-    </ThemeContext.Provider >
+        {/* ToastContainer is placed outside the Routes.
+            This ensures that the ToastContainer is always rendered and available
+            to display toast notifications, regardless of the current route.
+            It acts as a portal for all toasts across the application. */}
+        <ToastContainer
+          position="top-right" // Position of the toast notifications.
+          autoClose={5000}      // Toasts will automatically close after 5000ms (5 seconds).
+          hideProgressBar={false} // Show a progress bar indicating auto-close time.
+          newestOnTop={false}   // Newer toasts will appear below older ones.
+          closeOnClick          // Close toast when clicked.
+          rtl={false}           // Disable Right-To-Left support.
+          pauseOnFocusLoss      // Pause autoClose timer when window loses focus.
+          draggable             // Allow dragging toasts to dismiss them.
+          pauseOnHover          // Pause autoClose timer when mouse hovers over toast.
+        />
+      </Router>
+    </ThemeProvider>
   );
 }
 

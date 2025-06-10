@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
-import { ThemeContext } from '../App';
+import { ThemeContext } from '../context/ThemeContext';
+
 
 export const TextToSign = () => {
     const { darkMode } = useContext(ThemeContext);
@@ -111,7 +112,7 @@ export const TextToSign = () => {
 
 
     return (
-        <div className="flex gap-16">
+        <div className={`flex gap-16`}>
             {/* Video section */}
             <div className="w-[800px] h-[500px] relative bg-gray-300 rounded-lg overflow-hidden">
                 <canvas width="800" height="500" />
@@ -130,7 +131,7 @@ export const TextToSign = () => {
                         during <strong>{time.join(', ')}</strong>.
                     </p>
                 )}
-                <form className="flex flex-col gap-6 mt-5">
+                <form className={` flex flex-col gap-6 mt-5`}>
                     {/* Time of Day */}
                     <div>
                         <h2 className="text-lg font-semibold mb-2">Time of Day</h2>
@@ -140,7 +141,7 @@ export const TextToSign = () => {
                                     key={time}
                                     type="button"
                                     onClick={() => handleTimeChange(time)}
-                                    className={`px-4 py-2 rounded-full border ${timeOfDay[time]
+                                    className={` ${darkMode ? 'text-white' : ''} px-4 py-2 rounded-full border ${timeOfDay[time]
                                         ? 'bg-blue-600 text-white border-blue-600'
                                         : 'bg-transparent text-gray-600 border-gray-400'
                                         } transition duration-200`}
@@ -160,7 +161,7 @@ export const TextToSign = () => {
                                     key={type}
                                     type="button"
                                     onClick={() => handlePillChange(type)}
-                                    className={`px-4 py-2 rounded-full border ${pillType === type
+                                    className={` ${darkMode ? 'text-white' : ''} px-4 py-2 rounded-full border ${pillType === type
                                         ? 'bg-green-600 text-white border-green-600'
                                         : 'bg-transparent text-gray-600 border-gray-400'
                                         } transition duration-200`}
@@ -180,7 +181,7 @@ export const TextToSign = () => {
                                     key={count}
                                     type="button"
                                     onClick={() => setPillCount((prev) => prev === count ? '' : count)}
-                                    className={`px-4 py-2 rounded-full border ${pillCount === count
+                                    className={` ${darkMode ? 'text-white' : ''} px-4 py-2 rounded-full border ${pillCount === count
                                         ? 'bg-pink-600 text-white border-pink-600'
                                         : 'bg-transparent text-gray-600 border-gray-400'
                                         } transition duration-200`}
@@ -200,7 +201,7 @@ export const TextToSign = () => {
                                     key={meal}
                                     type="button"
                                     onClick={() => setMealTiming((prev) => prev === meal ? '' : meal)}
-                                    className={`px-4 py-2 rounded-full border ${mealTiming === meal
+                                    className={` ${darkMode ? 'text-white' : ''} px-4 py-2 rounded-full border ${mealTiming === meal
                                         ? 'bg-yellow-600 text-white border-yellow-600'
                                         : 'bg-transparent text-gray-600 border-gray-400'
                                         } transition duration-200`}

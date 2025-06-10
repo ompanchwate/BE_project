@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState, useContext } from 'react';
 import { Camera, Video, VideoOff, CircleDot, Circle, Volume2, VolumeX } from 'lucide-react';
-import { ThemeContext } from '../App';
+import { ThemeContext } from '../context/ThemeContext';
+
 
 interface VideoFeedProps {
   mode: 'sign-to-text' | 'text-to-sign';
