@@ -114,7 +114,7 @@ const SignUp = () => {
                 alert('Something went wrong. Please try again later.');
             }
         } finally {
-            setLoading(false); // Stop loader
+            setLoading(false);
         }
     };
 
@@ -136,7 +136,7 @@ const SignUp = () => {
                 <div className="w-full max-w-md">
                     <div className="text-center mb-8">
                         <div className="inline-flex items-center justify-center w-24 h-24 bg-primary rounded-full mb-4">
-                            <img src={'/assets/logo.webp'}  alt="" />
+                            <img src={'/assets/logo.webp'} alt="" />
                         </div>
                         <h1 className="text-3xl font-bold text-foreground mb-2">Create Account</h1>
                     </div>
@@ -234,10 +234,6 @@ const SignUp = () => {
                                 {errors.gender && <p className="text-sm text-destructive">{errors.gender}</p>}
                             </div>
 
-
-
-
-
                             {/* Qualification */}
                             <div className="space-y-2">
                                 <label htmlFor="qualification" className="text-sm font-medium text-foreground">Qualification</label>
@@ -254,7 +250,6 @@ const SignUp = () => {
                                 </div>
                                 {errors.qualification && <p className="text-sm text-destructive">{errors.qualification}</p>}
                             </div>
-
 
                             {/* Password */}
                             <div className="space-y-2">
@@ -281,21 +276,6 @@ const SignUp = () => {
                                     </button>
                                 </div>
                                 {errors.password && <p className="text-sm text-destructive">{errors.password}</p>}
-                            </div>
-
-                            {/* Terms */}
-                            <div className="flex items-center">
-                                <input
-                                    type="checkbox"
-                                    className="h-4 w-4 text-primary focus:ring-primary border-input rounded"
-                                    required
-                                />
-                                <span className="ml-2 text-sm text-muted-foreground">
-                                    I agree to the{' '}
-                                    <button type="button" className="text-primary hover:text-primary/80 transition-colors">Terms and Conditions</button>{' '}
-                                    and{' '}
-                                    <button type="button" className="text-primary hover:text-primary/80 transition-colors">Privacy Policy</button>
-                                </span>
                             </div>
 
                             {/* Submit */}

@@ -21,7 +21,7 @@ const VideoFeed: React.FC<VideoFeedProps> = ({ mode }) => {
   const [error, setError] = useState<string | null>(null);
   const [isCameraOn, setIsCameraOn] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
-  const [isSoundOn, setIsSoundOn] = useState(true); // 🔈 NEW
+  const [isSoundOn, setIsSoundOn] = useState(true);
 
   const API_URL = 'http://127.0.0.1:5000';
 

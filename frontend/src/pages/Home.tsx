@@ -78,7 +78,6 @@ const Home = () => {
                         <div className="col-span-2">
                             <VideoFeed mode={activeMode} />
                         </div>
-                        {/* <ConversionPanel mode={activeMode} /> */}
                     </div> :
                     <div className="flex gap-16 mb-40 mx-auto justify-center">
                         <div className="col-span-2">

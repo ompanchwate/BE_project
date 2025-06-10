@@ -42,7 +42,7 @@ const Header = () => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center space-x-2">
-            <img src={'/assets/logo.webp'}  alt="Logo" className="h-10 w-10" />
+            <img src={'/assets/logo.webp'} alt="Logo" className="h-10 w-10" />
             <a href="/dashboard" className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-800'}`}>HandyTalk</a>
           </div>
 
