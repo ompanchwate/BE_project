@@ -14,15 +14,19 @@ import jwt
 from bson import ObjectId
 import pytz
 import datetime
+import os
+from dotenv import load_dotenv
 
-SECRET_KEY = "your_secret_key_here"  # Use a strong, random secret key!
+ # Use a strong, random secret key!
+mongo_uri = os.getenv("MONGO_URI")
+secret_key = os.getenv("SECRET_KEY")
 
 app = Flask(__name__)
 CORS(app)
 bcrypt = Bcrypt(app)
 
 # MongoDB Connection
-client = MongoClient("mongodb+srv://ompanchwate:om789632@cluster0.5fxgqaj.mongodb.net/sign_language_app?retryWrites=true&w=majority&appName=Cluster0")
+client = MongoClient(mongo_uri)
 db = client['sign_language_app']
 users_collection = db['users']
 
@@ -91,7 +95,7 @@ def generate_jwt(email):
     payload = {
         'email': email
     }
-    token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+    token = jwt.encode(payload, secret_key, algorithm='HS256')
     return token
 
 
@@ -135,7 +139,7 @@ def signup():
     token = jwt.encode({
         'email': email,
         'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1)
-    }, SECRET_KEY, algorithm='HS256')
+    }, secret_key, algorithm='HS256')
 
     return jsonify({'message': 'User created successfully', 'user': user, 'token': token}), 201
 
@@ -160,7 +164,7 @@ def signin():
     token = jwt.encode({
     'email': email,
     'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1)
-}, SECRET_KEY, algorithm='HS256')
+}, secret_key, algorithm='HS256')
 
     return jsonify({'message': 'Login successful', 'user': user, 'token': token}), 200
 
@@ -181,7 +185,7 @@ def authenticate():
     token = parts[1]
 
     try:
-        decoded = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+        decoded = jwt.decode(token, secret_key, algorithms=['HS256'])
         # If you want, you can fetch user info from DB using decoded info
         return jsonify({'message': 'Token is valid', 'user': decoded}), 200
     except jwt.ExpiredSignatureError:
@@ -204,7 +208,7 @@ def update_profile():
     token = parts[1]
 
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+        payload = jwt.decode(token, secret_key, algorithms=['HS256'])
         email = payload['email']
     except jwt.ExpiredSignatureError:
         return jsonify({'error': 'Token has expired'}), 401

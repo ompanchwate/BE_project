@@ -160,7 +160,7 @@ const VideoFeed: React.FC<VideoFeedProps> = ({ mode }) => {
 
   return (
     <div className="flex gap-16">
-      <div className="w-[640px] h-[500px] relative bg-gray-300 rounded-lg overflow-hidden">
+      <div className="w-[640px] h-[500px] z-0 relative bg-gray-300 rounded-lg overflow-hidden">
         <video ref={videoRef} autoPlay playsInline className="w-full h-full object-cover" />
         <canvas ref={canvasRef} style={{ display: 'none' }} />
 

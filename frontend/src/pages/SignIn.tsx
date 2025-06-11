@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Eye, EyeOff, User, Lock, Sun, Moon, Loader2 } from 'lucide-react'; // Import Loader2 for spinner
+import { Eye, EyeOff, User, Lock, Sun, Moon, Loader2, StepBack, ArrowLeft } from 'lucide-react'; // Import Loader2 for spinner
 import { ThemeContext } from '../context/ThemeContext';
 import { toast } from 'react-toastify';
 import { signinUser } from '../api';
@@ -88,7 +88,12 @@ const SignIn = () => {
 
     return (
         <>
-            {/* Theme toggle */}
+            <button
+                onClick={() => navigate('/')}
+                className={`${darkMode ? 'text-white' : ''} fixed mt-4 inline-flex items-center gap-2 px-3 py-1 text-lg transition  left-5 `}
+            > <ArrowLeft /> <span className='border-b-2 '>Go to Home</span>
+            </button>
+
             <button
                 onClick={toggleDarkMode}
                 className={`${darkMode ? 'text-white' : ''} mt-4 inline-flex items-center gap-2 px-3 py-1 text-lg transition absolute right-5`}
@@ -100,7 +105,7 @@ const SignIn = () => {
                     {/* Header */}
                     <div className="text-center mb-8">
                         <div className={`inline-flex items-center justify-center w-24 h-24 ${darkMode ? 'bg-gray-800' : 'bg-primary'} rounded-full mb-4`}>
-                            <img src={'/assets/logo.webp'} alt="" />
+                            <img src={'/assets/logo.png'} alt="" />
                         </div>
                         <h1 className="text-3xl font-bold mb-2">Welcome Back to HandyTalk</h1>
                         <p className="text-sm opacity-70">Sign in to your account to continue</p>

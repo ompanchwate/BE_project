@@ -33,7 +33,7 @@ const Profile = () => {
 
     const handleSignOut = () => {
         logout(); // Call logout from context
-        navigate('/signin');
+        navigate('/');
     };
 
     const handleEditProfile = () => {
@@ -88,7 +88,7 @@ const Profile = () => {
             {/* Main Content */}
             <main className={` ${darkMode ? 'text-white' : 'text-black'} max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8`}>
                 {/* Page Header */}
-                <div className="mb-8 text-center">
+                <div className="mb-8 text-center mt-20">
                     <h1 className="text-4xl font-bold mb-6">
                         My Profile
                     </h1>

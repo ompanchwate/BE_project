@@ -127,8 +127,7 @@ export const TextToSign = () => {
                 {pill && time.length > 0 && pillCount && mealTiming && (
                     <p className="mt-2 text-base">
                         Take <strong>{pillCount}</strong> <strong>{pill}</strong> pill,
-                        <strong> {mealTiming.replace('_', ' ')}</strong>,
-                        during <strong>{time.join(', ')}</strong>.
+                        <strong> {mealTiming.replace('_', ' ')}</strong> meal in <strong>{time.join(', ')}</strong>.
                     </p>
                 )}
                 <form className={` flex flex-col gap-6 mt-5`}>

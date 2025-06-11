@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Eye, EyeOff, User, Mail, Phone, Lock, Sun, Moon } from 'lucide-react';
+import { Eye, EyeOff, User, Mail, Phone, Lock, Sun, Moon, ArrowLeft } from 'lucide-react';
 import { ThemeContext } from '../context/ThemeContext';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -122,6 +122,12 @@ const SignUp = () => {
     return (
         <>
             <button
+                onClick={() => navigate('/')}
+                className={`${darkMode ? 'text-white' : ''} fixed mt-4 inline-flex items-center gap-2 px-3 py-1 text-lg transition  left-5 `}
+            > <ArrowLeft /> <span className='border-b-2 '>Go to Home</span>
+            </button>
+
+            <button
                 onClick={toggleDarkMode}
                 className={`${darkMode ? 'text-white' : ''} mt-4 inline-flex items-center gap-2 px-3 py-1 text-lg transition fixed right-5`}
             >
@@ -132,7 +138,7 @@ const SignUp = () => {
                 <div className="w-full max-w-md">
                     <div className="text-center mb-8">
                         <div className="inline-flex items-center justify-center w-24 h-24 bg-primary rounded-full mb-4">
-                            <img src={'/assets/logo.webp'} alt="" />
+                            <img src={'/assets/logo.p'} alt="" />
                         </div>
                         <h1 className="text-3xl font-bold text-foreground mb-2">Create Account</h1>
                     </div>

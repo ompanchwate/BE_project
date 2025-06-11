@@ -6,7 +6,7 @@ import { useUser } from '../context/userContext';
 
 const Header = () => {
   const { darkMode, toggleDarkMode } = useContext(ThemeContext);
-  const { user, logout } = useUser(); 
+  const { user, logout } = useUser();
   const navigate = useNavigate();
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -25,33 +25,51 @@ const Header = () => {
   }, []);
 
   return (
-    <header className={`sticky ${darkMode ? 'bg-gray-500 text-white' : 'bg-white'} shadow-lg`}>
-      <div className="sticky container mx-auto px-4 py-4">
+    <header className={`fixed w-full z-50 ${darkMode ? 'bg-gray-500 text-white' : 'bg-white'} shadow-lg`}>
+      <div className=" container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center space-x-2">
-            <img src={'/assets/logo.webp'} alt="Logo" className="h-10 w-10" />
-            <a href="/dashboard" className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-800'}`}>
-              HandyTalk
-            </a>
+          <div className='flex space-x-28'>
+            <div className="flex items-center space-x-2">
+              <img src={'/assets/logo.png'} alt="Logo" className="h-10 w-10" />
+              <a href="/dashboard" className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-800'}`}>
+                HandyTalk
+              </a>
+            </div>
+
+            <div className='flex space-x-8'>
+              <button
+                onClick={() => navigate('/dashboard')}
+                className={`flex items-center space-x-2 px-4 py-2 rounded-lg ${darkMode ? 'hover:bg-gray-700 text-gray-300' : 'hover:bg-gray-100 text-gray-600'}`}
+              >
+                <LayoutDashboard className="h-5 w-5" />
+                <span>Dashboard</span>
+              </button>
+
+              <button
+                onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}
+                className={`flex items-center space-x-2 px-4 py-2 rounded-lg ${darkMode ? 'hover:bg-gray-700 text-gray-300' : 'hover:bg-gray-100 text-gray-600'
+                  }`}
+              >
+                <span>How It Works</span>
+              </button>
+
+              <button
+                onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}
+                className={`flex items-center space-x-2 px-4 py-2 rounded-lg ${darkMode ? 'hover:bg-gray-700 text-gray-300' : 'hover:bg-gray-100 text-gray-600'
+                  }`}
+              >
+                <span>Features</span>
+              </button>
+            </div>
           </div>
 
-          {/* Controls */}
-          <div className="flex items-center space-x-4 relative" ref={dropdownRef}>
-            {/* Dashboard Button */}
-            <button
-              onClick={() => navigate('/dashboard')}
-              className={`flex items-center space-x-2 px-4 py-2 rounded-lg ${darkMode ? 'hover:bg-gray-700 text-gray-300' : 'hover:bg-gray-100 text-gray-600'}`}
-            >
-              <LayoutDashboard className="h-5 w-5" />
-              <span>Dashboard</span>
-            </button>
 
-            {/* Username Dropdown */}
+          <div className="flex items-center space-x-4 relative" ref={dropdownRef}>
             <div className="relative">
               <button
                 onClick={() => setDropdownOpen(!dropdownOpen)}
-                className={`flex items-center space-x-2 px-4 py-2 rounded-lg ${darkMode ? 'hover:bg-gray-700 text-gray-300' : 'hover:bg-gray-100 text-gray-600 border-2 rounded-[100px] bg-blue-50 border-blue-500'}`}
+                className={`flex items-center space-x-2 px-4 py-2  border-2 rounded-full  border-blue-500 ${darkMode ? 'hover:bg-gray-700 text-gray-300 bg-gray-800 ' : 'hover:bg-gray-100 text-gray-600 bg-blue-50'}`}
               >
                 <User className="h-5 w-5" />
                 <span>{user?.name || 'User'}</span>
@@ -73,7 +91,7 @@ const Header = () => {
                     onClick={() => {
                       setDropdownOpen(false);
                       logout(); // ✅ Use context logout
-                      navigate('/signin');
+                      navigate('/');
                     }}
                   >
                     Logout
