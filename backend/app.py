@@ -24,7 +24,8 @@ secret_key = os.getenv("SECRET_KEY")
 
 app = Flask(__name__)
 # CORS(app)
-CORS(app, origins=["https://handytalk.vercel.app"])
+CORS(app, supports_credentials=True, origins=["https://handytalk.vercel.app"], allow_headers=["Content-Type", "Authorization"], methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+
 bcrypt = Bcrypt(app)
 
 # MongoDB Connection
