@@ -26,11 +26,7 @@ secret_key = os.getenv("SECRET_KEY")
 app = Flask(__name__)
 # CORS(app)
 
-CORS(app,
-     origins=["https://handytalk.vercel.app"],
-     supports_credentials=True,
-     allow_headers=["Content-Type", "Authorization"],
-     methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+CORS(app, origins=["*"])
 
 bcrypt = Bcrypt(app)
 
