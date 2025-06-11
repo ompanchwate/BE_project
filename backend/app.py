@@ -111,6 +111,10 @@ def generate_jwt(email):
     token = jwt.encode(payload, secret_key, algorithm='HS256')
     return token
 
+@app.route('/', methods=['GET'])
+def home():
+    return jsonify({"message": "Welcome to HandyTalk!"}), 200
+
 
 @app.route('/signup', methods=['POST'])
 def signup():
