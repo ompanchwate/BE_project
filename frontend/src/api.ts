@@ -4,7 +4,10 @@ import axios from 'axios';
 const API_URL = import.meta.env.VITE_API_URL;
 
 export const signinUser = async (formData) => {
-  return axios.post(`${API_URL}/signin`, formData);
+  return axios.post(`${API_URL}/signin`, formData, {
+    withCredentials: true
+  });
+
 };
 
 export const signupUser = async (formData) => {
