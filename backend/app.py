@@ -11,10 +11,9 @@ import base64
 from pymongo import MongoClient
 from flask_bcrypt import Bcrypt
 import jwt
-import datetime
 from bson import ObjectId
 import pytz
-
+import datetime
 
 SECRET_KEY = "your_secret_key_here"  # Use a strong, random secret key!
 
@@ -154,25 +153,14 @@ def signin():
     if not bcrypt.check_password_hash(user['password'], password):
         return jsonify({'error': 'Incorrect password'}), 401
 
-    # Get current IST time
-    ist_time = datetime.datetime.now(pytz.timezone('Asia/Kolkata'))
-
-    # Update user's last login time in the database
-    users_collection.update_one(
-        {'email': email},
-        {'$set': {'last_login': ist_time}}
-    )
-
-    # Fetch the updated user and remove password
     user = users_collection.find_one({'email': email}, {'password': 0})
     user['_id'] = str(user['_id'])
-    user['last_login'] = user['last_login'].strftime('%Y-%m-%d %H:%M:%S %Z')
 
     # Generate JWT token
     token = jwt.encode({
-        'email': email,
-        'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1)
-    }, SECRET_KEY, algorithm='HS256')
+    'email': email,
+    'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1)
+}, SECRET_KEY, algorithm='HS256')
 
     return jsonify({'message': 'Login successful', 'user': user, 'token': token}), 200
 
@@ -236,8 +224,6 @@ def update_profile():
         update_fields['gender'] = data['gender']
 
     # Set updated time in IST
-    IST = pytz.timezone('Asia/Kolkata')
-    update_fields['updated_at'] = datetime.now(IST)
 
     result = users_collection.update_one({'email': email}, {'$set': update_fields})
 

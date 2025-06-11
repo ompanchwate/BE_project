@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState, useContext } from 'react';
 import { Camera, Video, VideoOff, CircleDot, Circle, Volume2, VolumeX } from 'lucide-react';
 import { ThemeContext } from '../context/ThemeContext';
+import { predictFrame } from '../api.ts'
 
 
 interface VideoFeedProps {
@@ -114,13 +115,8 @@ const VideoFeed: React.FC<VideoFeedProps> = ({ mode }) => {
       formData.append("frame", blob, "frame.jpg");
 
       try {
-        const response = await fetch(`${API_URL}/predict-frame`, {
-          method: "POST",
-          body: formData,
-        });
-
-        const result = await response.json();
-        const { label, confidence, audio } = result;
+        const res = await predictFrame(formData);
+        const { label, confidence, audio } = res.data;
 
         setPrediction(label);
         setConfidence(confidence);
@@ -142,10 +138,8 @@ const VideoFeed: React.FC<VideoFeedProps> = ({ mode }) => {
           audioRef.current = newAudio;
           newAudio.play();
         }
-
-
-      } catch (error) {
-        console.error("Error predicting frame:", error);
+      } catch (err) {
+        console.error('Prediction error:', err);
       } finally {
         setIsProcessing(false);
       }

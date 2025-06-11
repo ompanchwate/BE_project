@@ -3,19 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { User, Mail, Phone, GraduationCap, LogOut, ArrowLeft, Edit, Settings, X } from 'lucide-react';
 import Header from '../components/Header';
 import { ThemeContext } from '../context/ThemeContext';
+import { updateUserProfile } from '../api';
+import { toast } from 'react-toastify';
+import { useUser } from '../context/userContext';
 
 const Profile = () => {
     const navigate = useNavigate();
-    const [user, setUser] = useState<{
-        isSignedIn: boolean;
-        username?: string;
-        name?: string;
-        email?: string;
-        phone?: string;
-        qualification?: string;
-        gender?: string;
-        created_at?: string;
-    } | null>(null);
+    const { user, setUser, logout } = useUser(); // ✅ Access user and setUser from context
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
     const [editFormData, setEditFormData] = useState({
         name: '',
@@ -27,22 +21,18 @@ const Profile = () => {
     const { darkMode } = useContext(ThemeContext);
 
     useEffect(() => {
-        const userData = localStorage.getItem('user');
-        if (userData) {
-            const parsedUser = JSON.parse(userData);
-            setUser(parsedUser);
+        if (user) {
             setEditFormData({
-                name: parsedUser.name || '',
-                email: parsedUser.email || '',
-                phone: parsedUser.phone || '',
-                qualification: parsedUser.qualification || '',
-                gender: parsedUser.gender || '',
+                name: user.name || '',
+                phone: user.phone || '',
+                qualification: user.qualification || '',
+                gender: user.gender || '',
             });
         }
-    }, [navigate]);
+    }, [user]); // When the user context changes, update the form
 
     const handleSignOut = () => {
-        localStorage.removeItem('user');
+        logout(); // Call logout from context
         navigate('/signin');
     };
 
@@ -61,25 +51,16 @@ const Profile = () => {
         if (user) {
             try {
                 const token = localStorage.getItem('token');
+                const response = await updateUserProfile(editFormData, token);
 
-                const response = await fetch('http://localhost:5000/update-profile', {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify(editFormData)
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    localStorage.setItem('user', JSON.stringify(data.user));
-                    setUser(data.user);
+                if (response.status === 200) {
+                    const updatedUser = response.data.user;
+                    setUser(updatedUser); // Update user context
                     setIsEditDialogOpen(false);
+                    toast.success('Profile updated successfully!');
                 } else {
-                    console.error(data.error);
-                    alert('Failed to update profile: ' + data.error);
+                    console.error(response.data.error);
+                    alert('Failed to update profile: ' + response.data.error);
                 }
             } catch (error) {
                 console.error('Error updating profile:', error);
@@ -87,8 +68,6 @@ const Profile = () => {
             }
         }
     };
-
-
 
     if (!user) {
         return (
@@ -265,20 +244,20 @@ const Profile = () => {
                             <div className="space-y-3">
                                 <button
                                     onClick={() => navigate('/dashboard')}
-                                    className="w-full flex items-center justify-center px-4 py-3 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-primary-foreground font-medium rounded-lg transition-all duration-200 hover:scale-105 shadow-md hover:shadow-lg"
+                                    className="w-full flex items-center justify-center px-4 py-3 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-primary-foreground font-medium rounded-lg transition-all duration-200 hover:scale-105 shadow-md hover:shadow-lg border-2"
                                 >
                                     Go to Dashboard
                                 </button>
-                                {/* <button
+                                <button
                                     onClick={handleEditProfile}
-                                    className="w-full flex items-center justify-center px-4 py-3 bg-secondary hover:bg-secondary/80 text-secondary-foreground font-medium rounded-lg transition-all duration-200 hover:scale-105"
+                                    className="w-full flex items-center justify-center px-4 py-3 border border-border text-foreground hover:bg-destructive hover:text-destructive-foreground font-medium rounded-lg transition-all duration-200 hover:scale-105 shadow-md hover:shadow-lg"
                                 >
                                     <Edit className="h-4 w-4 mr-2" />
                                     Edit Profile
-                                </button> */}
+                                </button>
                                 <button
                                     onClick={handleSignOut}
-                                    className="w-full flex items-center justify-center px-4 py-3 border border-border text-foreground hover:bg-destructive hover:text-destructive-foreground font-medium rounded-lg transition-all duration-200 hover:scale-105"
+                                    className="w-full flex items-center justify-center px-4 py-3 border border-border text-foreground hover:bg-destructive hover:text-destructive-foreground font-medium rounded-lg transition-all duration-200 hover:scale-105 shadow-md hover:shadow-lg"
                                 >
                                     <LogOut className="h-4 w-4 mr-2" />
                                     Sign Out

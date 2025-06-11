@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, User, Lock, Sun, Moon, Loader2 } from 'lucide-react'; // Import Loader2 for spinner
 import { ThemeContext } from '../context/ThemeContext';
 import { toast } from 'react-toastify';
+import { signinUser } from '../api';
 
 const SignIn = () => {
     const navigate = useNavigate();
@@ -59,40 +60,31 @@ const SignIn = () => {
         return !newErrors.email && !newErrors.password;
     };
 
+
     const handleSignIn = async (e: React.FormEvent) => {
         e.preventDefault();
 
         if (validateForm()) {
-            setIsLoading(true); // Set loading to true when sign-in process starts
+            setIsLoading(true); // Start loader
             try {
-                const res = await fetch('http://localhost:5000/signin', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(formData)
-                });
+                const res = await signinUser(formData); // call API
 
-                const data = await res.json();
+                // Store token and user data
+                localStorage.setItem('token', res.data.token);
+                localStorage.setItem('user', JSON.stringify(res.data.user));
 
-                if (res.ok) {
-                    localStorage.setItem('token', data.token);
-                    localStorage.setItem('user', JSON.stringify(data.user));
-                    toast.success('Sign in successful!');
-                    navigate('/dashboard');
-                } else {
-                    // Replaced alert with toast.error as per previous instructions
-                    toast.error(data.error || 'Sign in failed');
-                }
-            } catch (err) {
+                toast.success('Sign in successful!');
+                navigate('/dashboard');
+            } catch (err: any) {
                 console.error('❌ Error during sign in:', err);
-                // Replaced alert with toast.error as per previous instructions
-                toast.error('Server error. Please try again later.');
+                const message = err.response?.data?.error || 'Sign in failed';
+                toast.error(message);
             } finally {
-                setIsLoading(false); // Set loading to false when sign-in process finishes
+                setIsLoading(false); // Stop loader
             }
         }
     };
+
 
     return (
         <>

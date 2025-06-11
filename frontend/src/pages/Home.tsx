@@ -4,6 +4,8 @@ import TextToSign from '../components/TextToSign';
 import Header from '../components/Header';
 import { useNavigate } from 'react-router-dom';
 import { ThemeContext } from '../context/ThemeContext';
+import { validateToken } from '../api';
+import { toast } from 'react-toastify';
 
 const Home = () => {
 
@@ -15,34 +17,25 @@ const Home = () => {
         const token = localStorage.getItem('token');
 
         if (!token) {
-            // No token, redirect to signin
+            toast.error("Please sign in first.");
             navigate('/signin');
             return;
         }
 
-        // Validate token by calling your /authenticate API
-        fetch('http://localhost:5000/authenticate', {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
-            .then(res => {
-                if (!res.ok) {
-                    throw new Error('Token validation failed');
-                }
-                return res.json();
+        validateToken(token)
+            .then((res) => {
+                // Token valid, optionally set user state here
+                console.log("Authenticated:", res.data);
             })
-            .then(data => {
-                // token is valid, do nothing or set user state if needed
-            })
-            .catch(err => {
-                // Token invalid or expired, redirect to signin
-                console.log(err);
+            .catch((err) => {
+                // console.error("Token validation failed:", err);
+                toast.error("Session expired. Please sign in again.");
                 localStorage.removeItem('token');
+                localStorage.removeItem('user');
                 navigate('/signin');
             });
     }, [navigate]);
+
 
     return (
         <div className={`${darkMode ? 'bg-gradient-to-br from-gray-800 via-gray-900 to-gray-700' : 'bg-gradient-to-br from-blue-50 to-indigo-50'}`}>

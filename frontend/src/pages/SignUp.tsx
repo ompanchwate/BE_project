@@ -4,6 +4,7 @@ import { Eye, EyeOff, User, Mail, Phone, Lock, Sun, Moon } from 'lucide-react';
 import { ThemeContext } from '../context/ThemeContext';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { signupUser } from '../api';
 
 const SignUp = () => {
     const navigate = useNavigate();
@@ -96,27 +97,22 @@ const SignUp = () => {
 
         setLoading(true); // Start loader
         try {
-            const res = await axios.post('http://localhost:5000/signup', formData);
+            const res = await signupUser(formData); // call API
             const data = res.data;
 
-            if (res.status === 201 || res.status === 200) {
-                localStorage.setItem('token', data.token);
-                localStorage.setItem('user', JSON.stringify(data.user));
-                toast.success('Account Created successfully!');
-                navigate('/dashboard');
-            } else {
-                alert('Signup failed. Please try again.');
-            }
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('user', JSON.stringify(data.user));
+
+            toast.success('Account created successfully!');
+            navigate('/dashboard');
         } catch (error: any) {
-            if (error.response?.data?.error) {
-                alert(`Error: ${error.response.data.error}`);
-            } else {
-                alert('Something went wrong. Please try again later.');
-            }
+            const message = error.response?.data?.error || 'Signup failed. Please try again.';
+            toast.error(message);
         } finally {
-            setLoading(false);
+            setLoading(false); // Stop loader
         }
     };
+
 
 
     const inputBaseClass = `w-full rounded-lg border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent`;
