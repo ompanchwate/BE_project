@@ -17,14 +17,18 @@ import datetime
 import os
 from dotenv import load_dotenv
 
- # Use a strong, random secret key!
+load_dotenv()  # ✅ Load .env variables before using them
+
 mongo_uri = os.getenv("MONGO_URI")
 secret_key = os.getenv("SECRET_KEY")
 
 
 app = Flask(__name__)
 # CORS(app)
-CORS(app, supports_credentials=True, origins=["https://handytalk.vercel.app"], allow_headers=["Content-Type", "Authorization"], methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+CORS(app, supports_credentials=True, origins=[
+    "http://localhost:3000",
+    "https://handytalk.vercel.app"
+])
 
 bcrypt = Bcrypt(app)
 
