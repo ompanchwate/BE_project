@@ -21,8 +21,10 @@ from dotenv import load_dotenv
 mongo_uri = os.getenv("MONGO_URI")
 secret_key = os.getenv("SECRET_KEY")
 
+
 app = Flask(__name__)
-CORS(app)
+# CORS(app)
+CORS(app, origins=["https://handytalk.vercel.app"])
 bcrypt = Bcrypt(app)
 
 # MongoDB Connection
